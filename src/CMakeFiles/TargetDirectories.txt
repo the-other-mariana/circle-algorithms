@@ -1,0 +1,3 @@
+/home/wispok/services/src/circle-algorithms/src/CMakeFiles/main.dir
+/home/wispok/services/src/circle-algorithms/src/CMakeFiles/edit_cache.dir
+/home/wispok/services/src/circle-algorithms/src/CMakeFiles/rebuild_cache.dir
