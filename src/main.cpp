@@ -48,8 +48,8 @@ void algo3(Mat* img, int radius, int cx, int cy) {
 		}
 		for (int i = cx - y; i <= cx + y; i++)
 		{
-		    img->at<uchar>(i, cy + x);
-		    img->at<uchar>(i, cy - x);
+		    img->at<uchar>(i, cy + x) = 255;
+		    img->at<uchar>(i, cy - x) = 255;
 		}
 
 		y++;
