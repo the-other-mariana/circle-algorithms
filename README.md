@@ -111,6 +111,34 @@ void algo5(Mat* img, int radius, int cx, int cy) {
 }
 ```
 
+6. **Algorithm 6: Brute Force with Polar Coordinates**
+
+- Time Complexity: $O(R \times 360)$
+
+- Explanation: The outer loop runs "radius" times, and the inner loop runs 360 times for each iteration of the outer loop.
+
+```c++
+void algo6(Mat* img, int radius, int cx, int cy, uint8_t color) {
+	for (int r = 1; r < radius; r += 1) {
+		for (double a = 0.0; a < 360.0; a += 5.0) {
+			int x = cx + r * cos(a * 3.1416 / 180.0);
+			int y = cy + r * sin(a * 3.1416 / 180.0);
+			img->at<uchar>(x, y) = color;
+		}
+	}
+}
+```
+
+This clearly is the slowest algorithm, not because of its time complexity, but for the redundancy of the pixels computed. In the execution time comparison plot, all algorithms look like the following:
+
+![img](./src/plot.png)
+
+And this rules out the possibility of using algorithm #6 if performance is the aim. With the purpose of choosing another one, let's plot without the big difference that the algorithm #6 represents:
+
+![img](./src/plot2.png)
+
+Here, we can clearly see algorithm #3 is the fastest one.
+
 ## Run The Code
 
 1. You must have installed in your system:
@@ -126,8 +154,6 @@ cmake .
 make
 ./main
 ```
-
-![img](./src/plot.png)
 
 ## Sources
 

@@ -13,7 +13,7 @@ plt.figure(figsize=(10, 6))
 
 # Iterate over unique 'calls' values and plot a line for each
 for calls in df['calls'].unique():
-    subset = df[df['calls'] == calls]
+    subset = df[(df['calls'] == calls) & (df['algorithm_id'] != 6)]
     plt.plot(subset['algorithm_id'], subset['time(ms)'], label=f'{calls} calls')
 
 plt.title('Algorithm Execution Time')
@@ -22,5 +22,5 @@ plt.ylabel('Time (ms)')
 plt.legend()
 plt.grid(True)
 plt.xticks(df['algorithm_id'].unique())
-plt.savefig("../plot.png")
+plt.savefig("../plot2.png")
 plt.show()
