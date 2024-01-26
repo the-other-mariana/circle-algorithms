@@ -1,5 +1,9 @@
 # Circle Algorithms
 
+Six algorithms that draw a circle in a 2D grid. Sample images are the following:
+
+![img](./src/samples.png)
+
 ## Time Complexity
 
 1. **Algorithm 1: Brute Force**
