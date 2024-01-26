@@ -99,8 +99,8 @@ int main(int argc, char* argv[]) {
 	void (*functionArray[])(Mat*, int, int, int) = {algo1, algo2, algo3, algo4, algo5};
 	random_device rd;
     	mt19937 gen(rd());
-	int maxX = 100;
-	int maxY = 100;
+	int maxX = 400;
+	int maxY = 400;
 
 	int CIRCLES = stoi(argv[1]);
 	cout << "algorithm_id, time(ms), calls" << endl;
@@ -111,7 +111,7 @@ int main(int argc, char* argv[]) {
 		for (int r = 0; r < CIRCLES; r++) {
 			int x = uniform_int_distribution<int>(radius + 1, maxX - radius - 1)(gen);
         		int y = uniform_int_distribution<int>(radius + 1, maxY - radius - 1)(gen);
-			functionArray[i](matrix, 20, x, y);
+			functionArray[i](matrix, radius, x, y);
 		}
 		auto iteration_end = std::chrono::high_resolution_clock::now();
         	auto iteration_duration = std::chrono::duration_cast<std::chrono::microseconds>(iteration_end - iteration_start);
