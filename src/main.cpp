@@ -1,8 +1,14 @@
 #include <opencv2/opencv.hpp>
 #include <iostream>
+#include <random>
+#include <chrono>
+
+#define ALGORITHMS 5
+
 
 using namespace std;
 using namespace cv;
+
 int isqrt(int x) {
     int r = x;
     while (r * r > x) {
@@ -57,18 +63,60 @@ void algo3(Mat* img, int radius, int cx, int cy) {
 		}
 	}
 
-} 
-int main() {
-	Mat matrix1(500, 500, CV_8U, cv::Scalar(0));
-	algo3(&matrix1, 5, 100, 100);
-	imwrite("algo1.png", matrix1);
-	
-	Mat matrix2(500, 500, CV_8U, cv::Scalar(0));
-	algo3(&matrix2, 5, 100, 100);
-	imwrite("algo2.png", matrix2);
+}
 
+void algo4(Mat* img, int radius, int cx, int cy) {
+	for (int x = -radius; x < radius ; x++) {
+		int hh = (int)isqrt(radius * radius - x * x);
+		int rx = cx + x;
+		int ph = cy + hh;
+		for (int y = cy-hh; y < ph; y++)
+        		img->at<uchar>(rx, y) = 255;
+	}
+}
 
-	Mat matrix3(500, 500, CV_8U, cv::Scalar(0));
-	algo3(&matrix3, 5, 100, 100);
-	imwrite("algo3.png", matrix3);
+void algo5(Mat* img, int radius, int cx, int cy) {
+	int r2 = radius * radius;
+	int area = r2 << 2;
+	int rr = radius << 1;
+
+	for (int i = 0; i < area; i++) {
+    		int tx = (i % rr) - radius;
+    		int ty = (i / rr) - radius;
+
+    		if (tx * tx + ty * ty <= r2)
+        		img->at<uchar>(cx + tx, cy + ty) = 255;
+	}
+}
+ 
+int main(int argc, char* argv[]) {
+
+	if (argc != 2) {
+        	std::cerr << "Usage: " << argv[0] << " <integer_argument>" << std::endl;
+        	return 1;  // Exit with an error code
+    	}	
+
+	void (*functionArray[])(Mat*, int, int, int) = {algo1, algo2, algo3, algo4, algo5};
+	random_device rd;
+    	mt19937 gen(rd());
+	int maxX = 100;
+	int maxY = 100;
+
+	int CIRCLES = stoi(argv[1]);
+	cout << "algorithm_id, time(ms), calls" << endl;
+	int radius = 20;
+	for (uint8_t i = 0; i < ALGORITHMS; i++) {
+		cv::Mat* matrix = new cv::Mat(maxX, maxY, CV_8U, cv::Scalar(0));
+		auto iteration_start = std::chrono::high_resolution_clock::now();
+		for (int r = 0; r < CIRCLES; r++) {
+			int x = uniform_int_distribution<int>(radius + 1, maxX - radius - 1)(gen);
+        		int y = uniform_int_distribution<int>(radius + 1, maxY - radius - 1)(gen);
+			functionArray[i](matrix, 20, x, y);
+		}
+		auto iteration_end = std::chrono::high_resolution_clock::now();
+        	auto iteration_duration = std::chrono::duration_cast<std::chrono::microseconds>(iteration_end - iteration_start);
+		cout << (i+1) << ", " << iteration_duration.count() << ", " << CIRCLES << endl;
+		imwrite("images/algotest_" + to_string(i+1) + "_" + to_string(CIRCLES) + ".png", *matrix);
+		delete matrix;
+	}
 }
