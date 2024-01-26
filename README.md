@@ -1,3 +1,3 @@
-Circle Algorithms
+# Circle Algorithms
 
 ![img](./src/plot.png)
