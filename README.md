@@ -128,3 +128,7 @@ make
 ```
 
 ![img](./src/plot.png)
+
+## Sources
+
+- The algorithms are not mine, they were taken from here: https://stackoverflow.com/questions/1201200/fast-algorithm-for-drawing-filled-circles
